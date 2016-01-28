@@ -10,8 +10,7 @@ import           Data.ByteString
 import qualified Data.ByteString.Base16 as B16
 import qualified Data.ByteString.Char8  as C8
 import           Data.ByteString.Lazy   (toStrict)
-
-import           System.Random          (randomIO)
+import           Data.List              as L
 
 
 class Hashable a where
@@ -82,13 +81,12 @@ valid p (x:y:bs)
 valid _ _ = False
 
 
-mineBlock :: Hash256 -> Hash256 -> a -> IO (Block a)
-mineBlock target ph x = do
-    n <- randomIO
-    let trialHeader = BlockHeader ph n
-    if blockSolution target trialHeader
-        then return $ Block trialHeader x
-        else mineBlock target ph x
+mineBlock :: Hash256 -> Hash256 -> a -> Block a
+mineBlock target parentHash = Block minedHeader
+  where
+    nonces = [0..]
+    headers = L.map (BlockHeader parentHash) nonces
+    minedHeader = L.head (L.filter (blockSolution target) headers)
 
 
 blockSolution :: Hash256 -> BlockHeader -> Bool
@@ -96,5 +94,5 @@ blockSolution target trialHeader =
     sha256 (sha256 trialHeader) < target
 
 
-genesisBlock :: IO (Block Word32)
+genesisBlock :: Block Word32
 genesisBlock = mineBlock initialTarget zeroHash 0
