@@ -1,14 +1,12 @@
 name:                btcsim
 version:             0.1.0.0
-synopsis:            Initial project template from stack
-description:         Please see README.md
-homepage:            http://github.com/githubuser/btcsim#readme
+synopsis:            Cute little Bitcoin network/blockchain simulator
+homepage:            http://github.com/WraithM/btcsim#readme
 license:             BSD3
 license-file:        LICENSE
-author:              Author name here
-maintainer:          example@example.com
-copyright:           2010 Author Here
-category:            Web
+author:              Matthew Wraith
+maintainer:          wraithm@gmail.com
+copyright:           2016 Bitnomial, Inc
 build-type:          Simple
 -- extra-source-files:
 cabal-version:       >=1.10
